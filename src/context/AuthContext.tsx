@@ -3,7 +3,6 @@ import { createContext } from "react";
 interface Context{
      isAuth: boolean,
      setIsAuth:(isAuth:boolean)=>void,
-     
      id:number,
      setId:(id:number) => void,
      names:string,
@@ -12,6 +11,8 @@ interface Context{
      setRol:(rol:string) => void,
      email:string,
      setEmail:(email:string) => void,
+     eventos:boolean,
+     setEventos:(eventos:boolean) => void
 }
 
 export const AuthContext = createContext<Context|undefined>(undefined)

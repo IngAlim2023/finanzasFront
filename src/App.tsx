@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { api } from "./service/api";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
+import Investments from "./pages/Investments";
 
 const App = () => {
   const { setIsAuth, setId, setNames, setRol, setEmail } = useAuth();
@@ -38,6 +39,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/investments" element={<Investments />} />
         </Route>
       </Routes>
       <Toaster />

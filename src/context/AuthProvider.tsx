@@ -3,6 +3,7 @@ import { useState, type ReactNode } from "react";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [eventos, setEventos] = useState<boolean>(false);
   const [id, setId] = useState<number>(0);
   const [names, setNames] = useState<string>('');
   const [rol, setRol] = useState<string>('');
@@ -19,7 +20,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         rol, 
         setRol,
         email,
-        setEmail
+        setEmail,
+        eventos,
+        setEventos
       }}
     >
       {children}

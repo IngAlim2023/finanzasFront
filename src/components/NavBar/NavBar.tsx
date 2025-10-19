@@ -34,7 +34,7 @@ const NavBar: React.FC = () => {
         </ul>
         {isAuth && (
           <button
-            className="rounded-sm bg-purple-800 p-1 font-bold"
+            className="rounded-sm bg-cyan-700 p-1 font-bold"
             onClick={handleOut}
           >
             Logout
