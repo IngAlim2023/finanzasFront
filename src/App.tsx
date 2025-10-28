@@ -11,6 +11,7 @@ import { api } from "./service/api";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Dashboard from "./pages/Dashboard";
 import Investments from "./pages/Investments";
+import Financial from "./pages/Financial";
 
 const App = () => {
   const { setIsAuth, setId, setNames, setRol, setEmail } = useAuth();
@@ -40,6 +41,7 @@ const App = () => {
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/investments" element={<Investments />} />
+          <Route path="/financial" element={<Financial />} />
         </Route>
       </Routes>
       <Toaster />

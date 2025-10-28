@@ -14,7 +14,9 @@ const Dashboard: React.FC = () => {
         >
           Mis inversiones
         </button>
-        <button className="p-2 text-white bg-cyan-700 rounded-sm cursor-pointer">
+        <button className="p-2 text-white bg-cyan-700 rounded-sm cursor-pointer"
+        onClick={() => navigate("/financial")}
+        >
           Mis Movimientos
         </button>
       </div>
