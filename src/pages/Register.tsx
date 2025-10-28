@@ -69,20 +69,34 @@ const Register: React.FC = () => {
 
   //Validaciones de correo y password:
   useEffect(() => {
-    const verifyFields = async () => {
-      if (correo) {
-        const { data } = await api.get(`/usuarios/verifyCorreo/${correo}`);
-        setMsgCorreo(data.message);
-      }
+    // Si no hay cambios en correo o documento, no hace nada
+    if (!correo && !documento) return;
 
-      if (documento) {
-        const { data } = await api.get(
-          `/usuarios/verifyDocumento/${documento}`
-        );
-        setMsgDocumento(data.message);
+    // Limpiar mensajes previos
+    setMsgCorreo("");
+    setMsgDocumento("");
+
+    // Crea el temporizador del debounce
+    const timeout = setTimeout(async () => {
+      try {
+        if (correo) {
+          const { data } = await api.get(`/usuarios/verifyCorreo/${correo}`);
+          setMsgCorreo(data.message);
+        }
+
+        if (documento) {
+          const { data } = await api.get(
+            `/usuarios/verifyDocumento/${documento}`
+          );
+          setMsgDocumento(data.message);
+        }
+      } catch (error) {
+        console.error("Error al verificar correo/documento:", error);
       }
-    };
-    verifyFields();
+    }, 600); // ⏱️ Espera 600ms después de que el usuario deja de escribir
+
+    // 🧹 Limpieza: si el usuario sigue escribiendo, se cancela la ejecución anterior
+    return () => clearTimeout(timeout);
   }, [correo, documento]);
 
   if (isAuth) {
@@ -174,11 +188,12 @@ const Register: React.FC = () => {
               },
               maxLength: {
                 value: 89,
-                message: "No puede superar los 89 caracteres",
+                message: "No puede superar los 25 caracteres",
               },
             })}
             placeholder="Número de documento"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            autoComplete="off"
             onChange={(e) => setDocumento(e.target.value)}
           />
           {errors.documento && (
@@ -187,7 +202,7 @@ const Register: React.FC = () => {
             </p>
           )}
           {msgDocumento != "" && (
-            <div className="text-sm text-red-500">{msgDocumento}</div>
+            <div className="text-sm text-emerald-500">{msgDocumento}</div>
           )}
 
           <input
@@ -205,7 +220,7 @@ const Register: React.FC = () => {
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                 message: "Formato de correo inválido",
-              } ,
+              },
             })}
             placeholder="Correo"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -215,7 +230,7 @@ const Register: React.FC = () => {
             <p className="text-red-500 text-sm mt-1">{errors.correo.message}</p>
           )}
           {msgCorreo != "" && (
-            <div className="text-sm text-red-500">{msgCorreo}</div>
+            <div className="text-sm text-emerald-500">{msgCorreo}</div>
           )}
 
           {/* Password Input with toggle */}
@@ -239,6 +254,7 @@ const Register: React.FC = () => {
               })}
               placeholder="Contraseña"
               className="w-full border border-gray-300 rounded-md p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              autoComplete="off"
             />
             <div
               onClick={() => setShowP(!showP)}
