@@ -23,7 +23,7 @@ const App = () => {
         setIsAuth(true);
         setId(res.data.data.id);
         setNames(res.data.data.names);
-        setRol(res.data.data.rol);
+        setRol(res.data.data.idrol);
         setEmail(res.data.data.email);
       }
     };

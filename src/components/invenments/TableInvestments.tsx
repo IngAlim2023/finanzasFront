@@ -45,27 +45,30 @@ const TableInvestments: React.FC = () => {
     },
   ];
   return (
-    <DataTable
-      columns={columns}
-      data={userInves}
-      pagination
-      highlightOnHover
-      striped
-      responsive
-      customStyles={{
-        rows: {
-          style: {
-            minHeight: "56px",
+    <div className="bg-white shadow-md rounded-lg p-4 w-full">
+      <h2 className="text-xl font-bold text-slate-800 mb-4">Inversiones</h2>
+      <DataTable
+        columns={columns}
+        data={userInves}
+        pagination
+        highlightOnHover
+        striped
+        responsive
+        customStyles={{
+          rows: {
+            style: {
+              minHeight: "56px",
+            },
           },
-        },
-        headCells: {
-          style: {
-            fontWeight: "bold",
-            backgroundColor: "#f0f4f8",
+          headCells: {
+            style: {
+              fontWeight: "bold",
+              backgroundColor: "#f0f4f8",
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
+    </div>
   );
 };
 

@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../service/api";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import Select from "react-select";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import useAuth from "../context/useAuth";
+import { LuLoaderPinwheel } from "react-icons/lu";
 
 interface DataDocs {
   id: number;
   documento: string;
 }
 
+type Inputs = {
+  nombres: string;
+  apellidos: string;
+  iddocumento: number;
+  documento: string;
+  correo: string;
+  password: string;
+};
+
 const Register: React.FC = () => {
   const [documentos, setDocumentos] = useState<DataDocs[]>([]);
   const [showP, setShowP] = useState<boolean>(false);
+  const [btnActivate, setBtnActivate] = useState<boolean>(true);
+  const [correo, setCorreo] = useState<string>("");
+  const [msgCorreo, setMsgCorreo] = useState<string>("");
+  const [documento, setDocumento] = useState<string>("");
+  const [msgDocumento, setMsgDocumento] = useState<string>("");
 
-  const { register, handleSubmit, control } = useForm();
-  const {isAuth} = useAuth()
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const { isAuth } = useAuth();
 
   useEffect(() => {
     const loadDocs = async () => {
@@ -33,16 +53,37 @@ const Register: React.FC = () => {
   }));
 
   const navigate = useNavigate();
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    setBtnActivate(false);
     try {
       await api.post("usuarios", data);
       toast.success("Ya estás registrado");
       navigate("/");
+      return;
     } catch (error: any) {
       toast.error("No se pudo conectar con el servidor.");
-      console.error("Error desconocido:");
+      setBtnActivate(true);
+      return;
     }
   };
+
+  //Validaciones de correo y password:
+  useEffect(() => {
+    const verifyFields = async () => {
+      if (correo) {
+        const { data } = await api.get(`/usuarios/verifyCorreo/${correo}`);
+        setMsgCorreo(data.message);
+      }
+
+      if (documento) {
+        const { data } = await api.get(
+          `/usuarios/verifyDocumento/${documento}`
+        );
+        setMsgDocumento(data.message);
+      }
+    };
+    verifyFields();
+  }, [correo, documento]);
 
   if (isAuth) {
     return <Navigate to="/" replace />;
@@ -58,22 +99,52 @@ const Register: React.FC = () => {
 
           <input
             type="text"
-            {...register("nombres", { required: true })}
+            {...register("nombres", {
+              required: "Los nombres completos son obligatorios",
+              minLength: {
+                value: 5,
+                message: "Debe tener al menos 5 caracteres",
+              },
+              maxLength: {
+                value: 89,
+                message: "No puede superar los 89 caracteres",
+              },
+            })}
             placeholder="Nombres"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           />
+          {errors.nombres && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.nombres.message}
+            </p>
+          )}
 
           <input
             type="text"
-            {...register("apellidos", { required: true })}
+            {...register("apellidos", {
+              required: "Los apellidos completos son obligatorios",
+              minLength: {
+                value: 5,
+                message: "Debe tener al menos 5 caracteres",
+              },
+              maxLength: {
+                value: 89,
+                message: "No puede superar los 89 caracteres",
+              },
+            })}
             placeholder="Apellidos"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           />
+          {errors.apellidos && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.apellidos.message}
+            </p>
+          )}
 
           <Controller
             name="iddocumento"
             control={control}
-            rules={{ required: true }}
+            rules={{ required: "El tipo de documento es obligatorio" }}
             render={({ field }) => (
               <Select
                 {...field}
@@ -83,29 +154,89 @@ const Register: React.FC = () => {
                 }
                 value={options.find((option) => option.value === field.value)}
                 className="text-left"
+                placeholder="Tipo de documento"
               />
             )}
           />
+          {errors.iddocumento && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.iddocumento.message}
+            </p>
+          )}
 
           <input
-            type="text"
-            {...register("documento", { required: true })}
+            type="number"
+            {...register("documento", {
+              required: "El documento es obligatorio",
+              minLength: {
+                value: 6,
+                message: "Debe tener al menos 6 caracteres",
+              },
+              maxLength: {
+                value: 89,
+                message: "No puede superar los 89 caracteres",
+              },
+            })}
             placeholder="Número de documento"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            onChange={(e) => setDocumento(e.target.value)}
           />
+          {errors.documento && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.documento.message}
+            </p>
+          )}
+          {msgDocumento != "" && (
+            <div className="text-sm text-red-500">{msgDocumento}</div>
+          )}
 
           <input
             type="email"
-            {...register("correo", { required: true })}
+            {...register("correo", {
+              required: "El correo es obligatorio",
+              minLength: {
+                value: 10,
+                message: "Debe tener al menos 10 caracteres",
+              },
+              maxLength: {
+                value: 120,
+                message: "No puede superar los 120 caracteres",
+              },
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Formato de correo inválido",
+              } ,
+            })}
             placeholder="Correo"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            onChange={(e) => setCorreo(e.target.value)}
           />
+          {errors.correo && (
+            <p className="text-red-500 text-sm mt-1">{errors.correo.message}</p>
+          )}
+          {msgCorreo != "" && (
+            <div className="text-sm text-red-500">{msgCorreo}</div>
+          )}
 
           {/* Password Input with toggle */}
           <div className="relative">
             <input
               type={showP ? "text" : "password"}
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: "La contraseña es obligatoria",
+                minLength: {
+                  value: 5,
+                  message: "Debe tener al menos 5 caracteres",
+                },
+                maxLength: {
+                  value: 89,
+                  message: "No puede superar los 89 caracteres",
+                },
+                pattern: {
+                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{5,}$/,
+                  message: "Debe tener letras y números",
+                },
+              })}
               placeholder="Contraseña"
               className="w-full border border-gray-300 rounded-md p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
@@ -116,12 +247,24 @@ const Register: React.FC = () => {
               {showP ? <FaRegEyeSlash size={18} /> : <FaRegEye size={18} />}
             </div>
           </div>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.password.message}
+            </p>
+          )}
 
           <button
             type="submit"
             className="bg-cyan-700 hover:bg-cyan-800 transition-colors text-white font-semibold p-2 rounded-md cursor-pointer"
+            disabled={!btnActivate}
           >
-            Registrarme
+            {btnActivate ? (
+              "Registrarme"
+            ) : (
+              <div className=" flex justify-center font-bold text-2xl">
+                <LuLoaderPinwheel className="animate-spin" />
+              </div>
+            )}
           </button>
         </form>
         <div className="text-center m-2">

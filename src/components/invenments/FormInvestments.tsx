@@ -19,11 +19,12 @@ const FormInvestments: React.FC = () => {
     setEventos(!eventos);
   };
   return (
-    <div className="w-full">
+    <div className="bg-white shadow-md rounded-lg p-4 w-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="h-full flex flex-col justify-center items-center gap-2"
       >
+        <h2 className="text-xl font-bold mb-2">Nueva inversión</h2>
         <textarea
           className="w-full max-w-md border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           placeholder="Descripción"
