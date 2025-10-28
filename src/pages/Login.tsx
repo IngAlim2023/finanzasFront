@@ -1,20 +1,31 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { api } from "../service/api";
 import toast from "react-hot-toast";
 import useAuth from "../context/useAuth";
 
+type Input = {
+  correo:string,
+  password:string
+}
+
 const Login: React.FC = () => {
   const [showP, setShowP] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Input>();
 
   const { isAuth, setIsAuth, setNames, setId, setRol, setEmail } = useAuth();
 
-  const onSubmit: any = async (data: any) => {
+  const onSubmit: SubmitHandler<Input> = async (data:Input) => {
+    setLoading(true);
     try {
       const res = await api.post("usuarios/login", data);
       if (res.data.data) {
@@ -28,8 +39,8 @@ const Login: React.FC = () => {
       navigate("/");
     } catch (error: any) {
       toast.error("No se pudo conectar con el servidor.");
-      console.error("Error desconocido:");
-      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,16 +51,34 @@ const Login: React.FC = () => {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-6 bg-white rounded-xl shadow-md">
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="text-2xl font-bold text-center text-cyan-700">
-            Ingresar
-          </h2>
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-4 text-cyan-600 hover:text-cyan-800 font-semibold flex items-center gap-1 hover:cursor-pointer"
+        >
+          ← Volver
+        </button>
+
+        <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit(onSubmit)}>
+          <h2 className="text-2xl font-semibold text-center">Iniciar Sesión</h2>
+          <h3 className="text-center text-gray-600">
+            Accede a tu cuenta de FinanzasApp
+          </h3>
           <input
             type="email"
-            {...register("correo", { required: true })}
+            {...register("correo", {
+              required: "El correo es obligatorio",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Correo electrónico no válido",
+              },
+            })}
             placeholder="Correo"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
           />
+          {errors.correo && (
+            <p className="text-sm text-red-500 mt-1">{errors.correo.message}</p>
+          )}
+
           <div className="relative">
             <input
               type={showP ? "text" : "password"}
@@ -66,18 +95,23 @@ const Login: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="bg-cyan-700 hover:bg-cyan-800 transition-colors text-white font-semibold p-2 rounded-md cursor-pointer"
+            disabled={loading}
+            className={`bg-cyan-700 text-white font-semibold p-2 rounded-md transition-colors ${
+              loading
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:bg-cyan-800 cursor-pointer"
+            }`}
           >
-            Ingresar
+            {loading ? "Ingresando..." : "Iniciar Sesión"}
           </button>
         </form>
         <div className="text-center m-2">
-          <label>No tienes cuenta? </label>
+          <label className="text-gray-600">No tienes cuenta? </label>
           <Link
             to="/register"
-            className="text-cyan-500 underline hover:text-cyan-800"
+            className="text-cyan-500 hover:underline hover:text-cyan-800 font-semibold"
           >
-            Registrarme
+            Regístrate
           </Link>
         </div>
       </div>
