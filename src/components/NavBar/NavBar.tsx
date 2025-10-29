@@ -11,7 +11,7 @@ const NavBar: React.FC = () => {
     setIsAuth(false);
     setId(0);
     setNames('');
-    setRol('');
+    setRol(0);
     setEmail('');
   };
   return (
@@ -34,7 +34,7 @@ const NavBar: React.FC = () => {
         </ul>
         {isAuth && (
           <button
-            className="rounded-sm bg-cyan-700 p-1 font-bold"
+            className="rounded-xl bg-emerald-500 px-5 py-2 text-white font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200"
             onClick={handleOut}
           >
             Logout
