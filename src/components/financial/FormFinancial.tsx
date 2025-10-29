@@ -64,9 +64,10 @@ const FormFinancial: React.FC<Props> = ({ setShowFormFinancial }) => {
       setLoading(true);
       const movimientos = { ...data, idusuario: id };
       const res = await api.post("/movimientos", movimientos);
-      console.log(res);
-      toast.success("Movimiento registrado con éxito!");
-      setShowFormFinancial(false);
+      if (res.status === 201) {
+        toast.success("Movimiento registrado con éxito!");
+        setShowFormFinancial(false);
+      }
     } catch (err) {
       toast.error("Error al registrar el movimiento.");
     } finally {

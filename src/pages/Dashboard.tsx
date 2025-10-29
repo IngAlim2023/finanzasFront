@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import InvestmentsTotal from "../components/invenments/dashboard/InvestmentsTotal";
+import IncomeTotal from "../components/invenments/dashboard/IncomeTotal";
+import ExpenseTotal from "../components/invenments/dashboard/ExpenseTotal";
+import BalanceTotal from "../components/invenments/dashboard/BalanceTotal";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -20,8 +23,11 @@ const Dashboard: React.FC = () => {
           Mis Movimientos
         </button>
       </div>
-      <div>
+      <div className="flex gap-2">
         <InvestmentsTotal />
+        <IncomeTotal/>
+        <ExpenseTotal/>
+        <BalanceTotal/>
       </div>
     </div>
   );

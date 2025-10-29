@@ -34,7 +34,7 @@ const SideBar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-gradient-to-b from-emerald-600 to-blue-600 text-white flex flex-col justify-between shadow-xl">
+    <aside className="w-64 h-screen bg-emerald-600 text-white flex flex-col justify-between shadow-xl">
       {/* Header */}
       <div>
         <div className="p-6 text-2xl font-bold text-center tracking-wide border-b border-white/20">
