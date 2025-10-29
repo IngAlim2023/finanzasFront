@@ -5,7 +5,7 @@ import InvestmentsTotal from "../components/invenments/dashboard/InvestmentsTota
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-screen min-h-screen bg-gray-100 flex flex-col items-center p-6 gap-6">
+    <div className="w-full min-h-full bg-gray-100 flex flex-col items-center p-6 gap-6">
       <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
       <div className="gap-2 flex">
         <button

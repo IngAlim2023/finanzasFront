@@ -4,7 +4,7 @@ import useAuth from "../../context/useAuth";
 import { api } from "../../service/api";
 
 const NavBar: React.FC = () => {
-  const { isAuth, setIsAuth, setNames, setId, setRol, setEmail } = useAuth();
+  const { isAuth, setIsAuth, setNames, setId, setRol, setEmail,names } = useAuth();
 
   const handleOut = async () => {
     await api.get("/usuarios/logout");
@@ -17,7 +17,11 @@ const NavBar: React.FC = () => {
   return (
     <nav className="bg-blue-600 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-xl font-bold">Finanzas</div>
+        {names !=''?(
+          <div className="text-xl font-bold">{names}</div>
+        ):(
+          <div className="text-xl font-bold">FinanzasApp</div>
+        )}
         <ul className="flex space-x-4">
           <li>
             <Link to="/" className="hover:text-gray-300">
