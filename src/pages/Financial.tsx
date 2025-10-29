@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Cardfinancial from "../components/financial/Cardfinancial";
 import FormCategory from "../components/financial/FormCategory";
+import FormFinancial from "../components/financial/FormFinancial";
 
 const Financial: React.FC = () => {
   const [showFormCategory, setShowFormCategory] = useState<boolean>(false);
+  const [showFormFinancial, setShowFormFinancial] = useState<boolean>(false);
   return (
     <div>
       <div className="m-4 bg-white rounded-2xl shadow-lg p-6 transition-all duration-300">
@@ -19,7 +21,9 @@ const Financial: React.FC = () => {
             >
               + Crear movimiento
             </button>
-            <button className="rounded-xl bg-gradient-to-r from-emerald-500 to-blue-600 px-5 py-2 text-white font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">
+            <button 
+            onClick={() => setShowFormFinancial(true)}
+            className="rounded-xl bg-gradient-to-r from-emerald-500 to-blue-600 px-5 py-2 text-white font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">
               + Registrar movimiento
             </button>
           </div>
@@ -30,6 +34,9 @@ const Financial: React.FC = () => {
 
       {showFormCategory && (
         <FormCategory setShowFormCategory={setShowFormCategory} />
+      )}
+      {showFormFinancial && (
+        <FormFinancial setShowFormFinancial={setShowFormFinancial} />
       )}
     </div>
   );

@@ -58,7 +58,7 @@ const FormCategory: React.FC<Props> = ({ setShowFormCategory }) => {
         {/* Botón de cerrar */}
         <button
           onClick={() => setShowFormCategory(false)}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 transition-colors"
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 transition-colors hover:cursor-pointer"
         >
           <IoClose size={24} />
         </button>
@@ -91,6 +91,11 @@ const FormCategory: React.FC<Props> = ({ setShowFormCategory }) => {
               )}
             />
           </div>
+          {errors.idtipomovimiento && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.idtipomovimiento.message}
+              </p>
+            )}
           <div>
             <label className="block text-gray-600 text-sm mb-1">
               Nombre del movimiento
