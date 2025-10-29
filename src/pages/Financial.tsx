@@ -21,9 +21,10 @@ const Financial: React.FC = () => {
             >
               + Crear movimiento
             </button>
-            <button 
-            onClick={() => setShowFormFinancial(true)}
-            className="rounded-xl bg-gradient-to-r from-emerald-500 to-blue-600 px-5 py-2 text-white font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200">
+            <button
+              onClick={() => setShowFormFinancial(true)}
+              className="rounded-xl bg-gradient-to-r from-emerald-500 to-blue-600 px-5 py-2 text-white font-semibold shadow-md hover:scale-105 hover:shadow-lg transition-all duration-200"
+            >
               + Registrar movimiento
             </button>
           </div>
