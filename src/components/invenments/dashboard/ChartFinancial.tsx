@@ -6,6 +6,7 @@ import {
   BarChart,
   Cell,
   LabelList,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -53,7 +54,7 @@ const ChartFinancial: React.FC = () => {
     { name: "Egresos", movimiento: percExpenses },
   ];
 
-  const CustomTooltip = ({ active, payload, label }:any) => {
+  const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
         <div
@@ -69,25 +70,27 @@ const ChartFinancial: React.FC = () => {
     return null;
   };
   return (
-    <div>
-      <BarChart width={600} height={300} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip content={CustomTooltip} />
-        <Bar dataKey="movimiento" barSize={100}>
-          {data.map((val, index) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={val.name === "Ingresos" ? "#10B971" : "#EA4335"}
+    <div className="w-full h-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data}>
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip content={CustomTooltip} />
+          <Bar dataKey="movimiento" barSize={100}>
+            {data.map((val, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={val.name === "Ingresos" ? "#10B971" : "#EA4335"}
+              />
+            ))}
+            <LabelList
+              dataKey="movimiento"
+              position="top"
+              formatter={(value) => `${Number(value)?.toFixed(1)}%`}
             />
-          ))}
-          <LabelList
-            dataKey="movimiento"
-            position="top"
-            formatter={(value) => `${Number(value)?.toFixed(1)}%`}
-          />
-        </Bar>
-      </BarChart>
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 };
