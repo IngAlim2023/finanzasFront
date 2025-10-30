@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Cardfinancial from "../components/financial/Cardfinancial";
 import FormCategory from "../components/financial/FormCategory";
 import FormFinancial from "../components/financial/FormFinancial";
+import Transactions from "../components/financial/Transactions";
 
 const Financial: React.FC = () => {
   const [showFormCategory, setShowFormCategory] = useState<boolean>(false);
@@ -31,6 +32,7 @@ const Financial: React.FC = () => {
         </div>
 
         <Cardfinancial />
+        <Transactions/>
       </div>
 
       {showFormCategory && (

@@ -30,7 +30,7 @@ const FormFinancial: React.FC<Props> = ({ setShowFormFinancial }) => {
   const [categoria, setCategorias] = useState<any[]>([]);
   const [idMovimiento, setIdMovimiento] = useState<number>(0);
   const [loading, setLoading] = useState(false);
-  const { id } = useAuth();
+  const { id, setEventos, eventos } = useAuth();
 
   useEffect(() => {
     const loadData = async () => {
@@ -67,6 +67,7 @@ const FormFinancial: React.FC<Props> = ({ setShowFormFinancial }) => {
       if (res.status === 201) {
         toast.success("Movimiento registrado con éxito!");
         setShowFormFinancial(false);
+        setEventos(!eventos)
       }
     } catch (err) {
       toast.error("Error al registrar el movimiento.");

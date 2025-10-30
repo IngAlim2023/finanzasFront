@@ -4,9 +4,11 @@ import { MdOutlineShield } from "react-icons/md";
 import { RiPieChart2Line } from "react-icons/ri";
 import { TbWallet } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../context/useAuth";
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuth } = useAuth();
   return (
     <div className="min-h-screen flex flex-col items-center justify-center  text-gray-800 px-6">
       {/* HEADER */}
@@ -62,20 +64,31 @@ const Landing: React.FC = () => {
       </div>
 
       {/* BOTONES */}
-      <div className="flex gap-6">
-        <button
-          className="px-6 py-3 bg-emerald-500 text-white font-medium rounded-xl shadow-md hover:bg-emerald-600 transition"
-          onClick={() => navigate("/login")}
-        >
-          Iniciar Sesión
-        </button>
-        <button
-          className="px-6 py-3 border-2 border-emerald-500 text-emerald-600 font-medium rounded-xl hover:bg-emerald-500 hover:text-white transition"
-          onClick={() => navigate("/register")}
-        >
-          Registrarse
-        </button>
-      </div>
+      {isAuth ? (
+        <div className="flex gap-6">
+          <button
+            className="px-6 py-3 bg-emerald-500 text-white font-medium rounded-xl shadow-md hover:bg-emerald-600 transition animate-pulse"
+            onClick={() => navigate("/dashboard")}
+          >
+            Dashboard
+          </button>
+        </div>
+      ) : (
+        <div className="flex gap-6">
+          <button
+            className="px-6 py-3 bg-emerald-500 text-white font-medium rounded-xl shadow-md hover:bg-emerald-600 transition"
+            onClick={() => navigate("/login")}
+          >
+            Iniciar Sesión
+          </button>
+          <button
+            className="px-6 py-3 border-2 border-emerald-500 text-emerald-600 font-medium rounded-xl hover:bg-emerald-500 hover:text-white transition"
+            onClick={() => navigate("/register")}
+          >
+            Registrarse
+          </button>
+        </div>
+      )}
 
       {/* FOOTER */}
       <footer className="mt-16 text-sm text-gray-500">
