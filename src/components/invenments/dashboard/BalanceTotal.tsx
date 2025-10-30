@@ -35,12 +35,12 @@ const BalanceTotal: React.FC = () => {
   const bgColorClass = isPositive ? "bg-blue-200" : "bg-orange-200";
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-full sm:w-72 md:w-80">
+    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center gap-4 w-full sm:w-72 md:w-80">
       <div className={`text-4xl ${bgColorClass} p-2 rounded-xl`}>
         <HiMiniScale className={`${colorClass} text-4xl`} />
       </div>
       <div>
-        <p className="text-gray-500 text-sm">Balance Total</p>
+        <p className="text-gray-500 text-sm text-center">Balance Total</p>
         <p className={`text-2xl font-semibold ${colorClass}`}>
           ${balance.toFixed(2)}
         </p>

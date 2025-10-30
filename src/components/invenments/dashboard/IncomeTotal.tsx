@@ -15,12 +15,12 @@ const IncomeTotal: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-full sm:w-72 md:w-80">
+    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center gap-4 w-full sm:w-72 md:w-80">
       <div className="text-cyan-700 text-4xl bg-emerald-200 p-2 rounded-xl">
         <HiMiniArrowTrendingUp className="text-emerald-500 text-4xl" />
       </div>
       <div>
-        <p className="text-gray-500 text-sm">Total Ingresos</p>
+        <p className="text-gray-500 text-sm text-center">Total Ingresos</p>
         <p className="text-2xl font-semibold text-emerald-500">${total}</p>
       </div>
     </div>
