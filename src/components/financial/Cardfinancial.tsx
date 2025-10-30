@@ -5,7 +5,7 @@ import BalanceTotal from "../invenments/dashboard/BalanceTotal";
 
 const Cardfinancial: React.FC = () => {
   return (
-    <div className="flex gap-2 justify-center items-center">
+    <div className="flex flex-wrap gap-4 justify-center">
       <IncomeTotal />
       <ExpenseTotal />
       <BalanceTotal />

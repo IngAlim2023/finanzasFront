@@ -15,7 +15,7 @@ const ExpenseTotal: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-80">
+    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-full sm:w-72 md:w-80">
       <div className="text-cyan-700 text-4xl bg-red-200 p-2 rounded-xl">
         <HiMiniArrowTrendingDown className="text-red-500 text-4xl" />
       </div>

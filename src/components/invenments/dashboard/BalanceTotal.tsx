@@ -35,7 +35,7 @@ const BalanceTotal: React.FC = () => {
   const bgColorClass = isPositive ? "bg-blue-200" : "bg-orange-200";
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-80">
+    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-full sm:w-72 md:w-80">
       <div className={`text-4xl ${bgColorClass} p-2 rounded-xl`}>
         <HiMiniScale className={`${colorClass} text-4xl`} />
       </div>

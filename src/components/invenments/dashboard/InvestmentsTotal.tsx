@@ -16,7 +16,7 @@ const InvestmentsTotal: React.FC = () => {
   }, [eventos]);
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-80">
+    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center gap-4 w-full sm:w-72 md:w-80">
       <div className="text-purple-700 text-4xl bg-purple-200 p-2 rounded-xl">
         <RiPieChart2Line />
       </div>
