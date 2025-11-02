@@ -70,27 +70,38 @@ const ChartFinancial: React.FC = () => {
     return null;
   };
   return (
-    <div className="w-full h-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip content={CustomTooltip} />
-          <Bar dataKey="movimiento" barSize={100}>
-            {data.map((val, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={val.name === "Ingresos" ? "#10B971" : "#EA4335"}
+    <div className="w-full bg-white shadow-lg rounded-lg p-6">
+      <div className="w-full flex flex-col items-center mb-4">
+        <div className="text-xl font-bold">
+          Comparativa de Ingresos y Egresos
+        </div>
+        <div className="text-gray-500 text-sm">
+          Porcentaje de ingresos frente a gastos totales
+        </div>
+      </div>
+      {/* Contenedor con altura fija o responsive */}
+      <div className="w-full h-[300px] sm:h-[350px] md:h-[400px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data}>
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip content={CustomTooltip} />
+            <Bar dataKey="movimiento" barSize={50}>
+              {data.map((val, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={val.name === "Ingresos" ? "#10B971" : "#EA4335"}
+                />
+              ))}
+              <LabelList
+                dataKey="movimiento"
+                position="top"
+                formatter={(value) => `${Number(value)?.toFixed(1)}%`}
               />
-            ))}
-            <LabelList
-              dataKey="movimiento"
-              position="top"
-              formatter={(value) => `${Number(value)?.toFixed(1)}%`}
-            />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
